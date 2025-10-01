@@ -128,71 +128,69 @@ def situation2_game_loop(items, Failure):
                     print("-----------------------------------------------")
                     print("you came back to the metro station. Use your item to board the metro.")
                     continue  # Continue the item selection loop with new item
+                elif back_home == "no":
+                    print("You wasted too much time doing nothing. You are already late for school.")
+                    input("Press Enter to try again...")
+                    return False
                 else:
-                    print("You wasted too much time doing nothing. You already late for school.")
-                    Failure += 1
-                    if Failure >= 3:
-                        print("You have failed to reach the university on time. Game over.")
-                        return -1  # Return -1 to indicate game over
-                    else:
-                        print(f"Failure count: {Failure}/3. Try again!")
-                        input("Press Enter to restart...")
-                        break  
-
+                    print("Invalid choice. Please enter 'yes' or 'no'.")
+                    continue
+        
 
 def situation4_game_loop(items, Failure):
     situation4 = True  # Add missing variable
-    classmate_helped = False
+    classmate_helped = True
+    #classmate_helped = False
     quiz_questions = [
     {
         "question": "How many study hours does 1 credit (EC) equal at Rotterdam University of Applied Sciences?",
-        "options": ["20 hours", "28 hours", "40 hours"],
-        "answer": ["28 hours"]
+        "options": ["a.) 20 hours", "b.) 28 hours", "c.) 40 hours"],
+        "answer": ["28 hours", "b"]
     },
     {
         "question": "How many credits (EC) must a student normally obtain per year in a full-time program?",
-        "options": ["45", "60", "75"],
-        "answer": ["60"]
+        "options": ["a.) 45", "b.) 60", "c.) 75"],
+        "answer": ["60", "b"]
     },
     {
         "question": "What is the main language of instruction and exams at CMI?",
-        "options": ["English", "Dutch", "German"],
-        "answer": ["Dutch"]
+        "options": ["a.) English", "b.) Dutch", "c.) German"],
+        "answer": ["Dutch", "b"]
     },
     {
         "question": "Who is the first point of contact for a student regarding study guidance in the first year?",
-        "options": ["Student counselor", "Learning team coach", "Study advisor"],
-        "answer": ["Learning team coach"]
+        "options": ["a.) Student counselor", "b.) Learning team coach", "c.) Study advisor"],
+        "answer": ["Learning team coach", "b"]
     },
     {
         "question": "How many credits must a Communication student obtain to receive a positive study recommendation after the first year?",
-        "options": ["48 EC", "35 EC", "60 EC"],
-        "answer": ["48 EC"]
+        "options": ["a.) 48 EC", "b.) 35 EC", "c.) 60 EC"],
+        "answer": ["48 EC", "a."]
     },
     {
         "question": "Where must a student be registered in order to take an exam?",
-        "options": ["Studielink", "Hint", "Osiris"],
-        "answer": ["Osiris"]
+        "options": ["a.) Studielink", "b.) Hint", "c.) Osiris"],
+        "answer": ["Osiris", "c"]
     },
     {
         "question": "Which of the following is an example of fraud according to the study guide?",
-        "options": ["Submitting your own work", "Copying or pasting without proper citation", "Asking for an extra resit"],
-        "answer": ["Copying or pasting without proper citation"]
+        "options": ["a.) Submitting your own work", "b.) Copying or pasting without proper citation", "c.) Asking for an extra resit"],
+        "answer": ["Copying or pasting without proper citation", "b."]
     },
     {
         "question": "Who handles complaints and disputes about exams at CMI?",
-        "options": ["Executive Board", "Bureau Complaints and Disputes (BKG)", "Teaching team"],
-        "answer": ["Bureau Complaints and Disputes (BKG)"]
+        "options": ["a.) Executive Board", "b.) Bureau Complaints and Disputes (BKG)", "c.) Teaching team"],
+        "answer": ["Bureau Complaints and Disputes (BKG)", "b."]
     },
     {
         "question": "Who owns the intellectual property of work created by a student during their studies?",
-        "options": ["Always the university", "In principle, the student", "The teacher who graded it"],
-        "answer": ["In principle, the student"]
+        "options": ["a.) Always the university", "b.) In principle, the student", "c.) The teacher who graded it"],
+        "answer": ["In principle, the student", "b."]
     },
     {
         "question": "What is one of the obligations of every student according to the study guide?",
-        "options": ["Only attend exams", "Actively contribute to education and a safe learning environment", "Only hand in assignments"],
-        "answer": ["Actively contribute to education and a safe learning environment"]
+        "options": ["a.) Only attend exams", "b.) Actively contribute to education and a safe learning environment", "c.) Only hand in assignments"],
+        "answer": ["Actively contribute to education and a safe learning environment", "b."]
     }]
     while situation4:
         input("Press Enter to continue...")
@@ -212,8 +210,10 @@ def situation4_game_loop(items, Failure):
         while True:
             answer_or_use_item = input("Type 'answer' to answer her question or 'item' to use an item: ").lower()
             if answer_or_use_item == 'answer':
+                clear_screen()
                 break
             elif answer_or_use_item == 'item':
+                clear_screen()
                 item_choice = choose_item(items)
                 if item_choice == "cash":
                     print("You bribed the senior student with cash to let you pass.")
@@ -231,10 +231,8 @@ def situation4_game_loop(items, Failure):
                     try_use_item += 1
                     if try_use_item >= 3:
                         print("You lost too much time trying to use useless items. You are late for school.")
-                        Failure += 1
-                        if Failure >= 3:
-                            print("You have failed to reach the university on time. Game over.")
-                            return -1  # Return -1 to indicate game over
+                        return False
+                        break
                 else:
                     print("You have no items to use.")
                     continue
@@ -249,20 +247,26 @@ def situation4_game_loop(items, Failure):
                 for option in options:
                     print(option)
                 user_answer = input("Type your answer (a/b/c): ").lower()
-                if user_answer == question_data["answer"]:
+                # Check if user_answer matches any of the correct answers
+                if user_answer in [ans.lower() for ans in question_data["answer"]]:
                     print("Correct! You may pass.")
                     situation4 = False
-                    answer = True
                     situation5 = True
                     print("You successfully passed the senior student and entered the university....")
-                    break
+                    answer = True
+                    return situation5
                 else:
                     print("Incorrect answer. Try again.")
                     continue
             else:
                 print("You have to answer this question correctly to pass.")
                 input_answer = input("Type your answer: ").lower()
-                if input_answer == question_data["answer"]:
+                if input_answer == question_data["answer"][0].lower() or input_answer == question_data["answer"][1].lower():
+                    is_correct = True
+                else:
+                    is_correct = False
+                    print("Incorrect answer.")
+                if is_correct:
                     print("Correct! You may pass.")
                     situation4 = False
                     answer = True
@@ -288,13 +292,41 @@ def main_game_loop():
     print(f"Welcome, {name} to the Race to University!")
     input("Press Enter to continue...")  # Pause to show welcome message
     clear_screen()
-    situation2 = situation2_game_loop(items, Failure)
-    if situation2 is -1:
-        return  # Game over due to failures in situation2
-    situation4 = situation4_game_loop(items, Failure)
-    if situation4 is -1:
-        return  # Game over due to failures in situation4
-    print("Congratulations! You have successfully navigated all situations and reached the university.")
+    while Failure < 4:
+        # Run situation 2 (metro station)
+        situation2 = situation2_game_loop(items, Failure)
+        
+        if situation2 is True:
+            # If situation 2 succeeded, move to situation 4
+            situation4 = situation4_game_loop(items, Failure)
+            
+            if situation4 is True:
+                # Both situations completed successfully - game won!
+                print("Congratulations! You have successfully navigated all situations and reached the university!")
+                return
+            elif situation4 is False:
+                # Situation 4 failed
+                Failure += 1
+                if Failure >= 4:
+                    print("Game Over! You are 4 times late. You failed school.")
+                    return
+                else:
+                    print(f"You were late yesterday. You have {4 - Failure} attempts left.")
+                    input("Press Enter to try again...")
+                    clear_screen()
+                    continue  # Restart from situation 2               
+        elif situation2 is False:
+            # Situation 2 failed
+            Failure += 1
+            if Failure >= 4:
+                print("Game Over! You are 4 times late. You failed school.")
+                return
+            else:
+                print(f"You were late yesterday. You have {4 - Failure} attempts left.")
+                input("Press Enter to start your day...")
+                clear_screen()
+    print()
+                
 
 if __name__ == "__main__":
     while True:
