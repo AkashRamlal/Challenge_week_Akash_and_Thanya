@@ -51,7 +51,9 @@ items = ["toy", "Pen"]
 
 # gates for progression
 gate1 = True
+gate2 = False
 gate3 = False
+gate4 = False   
 gate5 = False
 
 starting_or_quit_choice = starting_or_quit()
