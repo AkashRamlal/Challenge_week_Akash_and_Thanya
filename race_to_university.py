@@ -220,6 +220,57 @@ while active_session:
 
     # --- Situation 4 ---
     while gate4:
+        quiz_questions = [
+    {
+        "question": "How many study hours does 1 credit (EC) equal at Rotterdam University of Applied Sciences?",
+        "options": ["a.) 20 hours", "b.) 28 hours", "c.) 40 hours"],
+        "answer": ["28 hours", "b"]
+    },
+    {
+        "question": "How many credits (EC) must a student normally obtain per year in a full-time program?",
+        "options": ["a.) 45", "b.) 60", "c.) 75"],
+        "answer": ["60", "b"]
+    },
+    {
+        "question": "What is the main language of instruction and exams at CMI?",
+        "options": ["a.) English", "b.) Dutch", "c.) German"],
+        "answer": ["Dutch", "b"]
+    },
+    {
+        "question": "Who is the first point of contact for a student regarding study guidance in the first year?",
+        "options": ["a.) Student counselor", "b.) Learning team coach", "c.) Study advisor"],
+        "answer": ["Learning team coach", "b"]
+    },
+    {
+        "question": "How many credits must a Communication student obtain to receive a positive study recommendation after the first year?",
+        "options": ["a.) 48 EC", "b.) 35 EC", "c.) 60 EC"],
+        "answer": ["48 EC", "a."]
+    },
+    {
+        "question": "Where must a student be registered in order to take an exam?",
+        "options": ["a.) Studielink", "b.) Hint", "c.) Osiris"],
+        "answer": ["Osiris", "c"]
+    },
+    {
+        "question": "Which of the following is an example of fraud according to the study guide?",
+        "options": ["a.) Submitting your own work", "b.) Copying or pasting without proper citation", "c.) Asking for an extra resit"],
+        "answer": ["Copying or pasting without proper citation", "b."]
+    },
+    {
+        "question": "Who handles complaints and disputes about exams at CMI?",
+        "options": ["a.) Executive Board", "b.) Bureau Complaints and Disputes (BKG)", "c.) Teaching team"],
+        "answer": ["Bureau Complaints and Disputes (BKG)", "b."]
+    },
+    {
+        "question": "Who owns the intellectual property of work created by a student during their studies?",
+        "options": ["a.) Always the university", "b.) In principle, the student", "c.) The teacher who graded it"],
+        "answer": ["In principle, the student", "b."]
+    },
+    {
+        "question": "What is one of the obligations of every student according to the study guide?",
+        "options": ["a.) Only attend exams", "b.) Actively contribute to education and a safe learning environment", "c.) Only hand in assignments"],
+        "answer": ["Actively contribute to education and a safe learning environment", "b."]
+    }]
         clear_terminal()
         print("========================================")
         print("You finally arrive at the school gates.")
@@ -238,10 +289,10 @@ while active_session:
         while True:
             answer_or_use_item = input("Type 'answer' to answer her question or 'item' to use an item: ").lower()
             if answer_or_use_item == 'answer':
-                clear_screen()
+                clear_terminal()
                 break
             elif answer_or_use_item == 'item':
-                clear_screen()
+                clear_terminal()
                 item_choice = choose_item(items)
                 if item_choice == "cash":
                     print("You bribed the senior student with cash to let you pass.")
