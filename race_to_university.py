@@ -2,6 +2,20 @@ import time
 import os
 import random
 
+game_time = int(30*60)
+start_time = None
+
+def time_remaining():
+    if start_time is None:
+        return game_time
+    elapsed = time.time() - start_time
+    remaining = game_time - elapsed
+    if remaining < 0:
+        remaining = 0
+    minutes, seconds = divmod(int(remaining), 60)
+    return f"{minutes:02d}:{seconds:02d}"
+
+
 def clear_terminal(): #clear the terminal
     os.system("cls" if os.name == "nt" else "clear")
     time.sleep(1)
@@ -42,7 +56,7 @@ def choose_item(items):             #choose the item
             print("Invalid choice. Please select a valid item number.")
 
 active_session = True
-items = ["toy", "Pen"]
+items = []
 
 gate1 = True
 gate2 = False
@@ -57,6 +71,7 @@ if not starting_or_quit_choice:
 name = user_name_input()
 print(f"Welcome, {name} to the Race to University!")
 input("Press Enter to continue...")
+start_time = time.time()
 clear_terminal()
 
 five_euro_used = False
@@ -68,9 +83,12 @@ while active_session:
     while gate1:
         clear_terminal()
         print("======================================")
-        print("          Destination: Home           ")
+        print("           Destination: Home          ")
         print("======================================\n")
         print("======================================")
+        print("=                                    =")
+        print(f"=  your time:{time_remaining()}     =")
+        print("=                                    =")
         print("=   a: Look for your key             =")
         print("=   b: Walk to the station           =")
         print("=   c: Call mom                      =")
@@ -103,6 +121,8 @@ while active_session:
         clear_terminal()
         print("======================================")
         print("   You arrive near the metro station  ")
+        print("                                      ")
+        print(f"     your time:{time_remaining()}     ")
         print("======================================\n")
         print("===================================================================================")
         print("You notice an old man drop his belongings in front of you.")
@@ -190,6 +210,9 @@ while active_session:
         print("        Destination: Bus Stop       ")
         print("======================================\n")
         print("======================================")
+        print("=                                    =")
+        print(f"=  your time:{time_remaining()}     =")
+        print("=                                    =")
         print("=   a: Look for your OV chipcard     =")
         print("=   b: You ask ur friend for help    =")
         print("=   c: you buy a ticket at the bus   =")
@@ -200,7 +223,7 @@ while active_session:
 
 
             print("You chose something! (progressing...)")
-            time.sleep(30)
+            time.sleep(3)
             input("Press Enter to continue...")
             gate3 = False
             gate4 = True
@@ -224,6 +247,7 @@ while active_session:
         clear_terminal()
         print("========================================")
         print("You finally arrive at the school gates.")
+        print(f"=   your time:{time_remaining()}      ")
         print("========================================\n")
         print("=====================================================================") 
         print("A senior student is blocking the entrance.")
@@ -298,11 +322,15 @@ while active_session:
                 continue
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------
     while gate5:
+        time.sleep(2)
         clear_terminal()
         print("======================================")
         print("   Location: hogeschool rotterdam     ")
         print("======================================\n")
         print("======================================")
+        print("=                                    =")
+        print(f"=  your time:{time_remaining()}     =")
+        print("=                                    =")
         print("=   a: You ask Michelon              =")
         print("=   b: you ask pascalle              =")
         print("=   c: you look on your phone        =")
