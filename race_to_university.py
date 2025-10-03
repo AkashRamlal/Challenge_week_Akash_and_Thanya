@@ -2,12 +2,11 @@ import time
 import os
 import random
 
-def clear_terminal():
+def clear_terminal(): #clear the terminal
     os.system("cls" if os.name == "nt" else "clear")
     time.sleep(1)
 
-
-def user_name_input():
+def user_name_input(): #input name 
     name = input("Enter your character name: ")
     if 0 < len(name) <= 10:
         if name.isalpha() and name[0].isupper():
@@ -18,8 +17,7 @@ def user_name_input():
         print("Invalid name. Please enter a name with 1-10 alphabetic characters.")
     return user_name_input()
 
-
-def starting_or_quit():
+def starting_or_quit():                     #start or quit
     choice = input("Press 'enter' to begin or 'q' to exit: ")
     if choice == 'q':
         print("Exiting the game.")
@@ -30,8 +28,7 @@ def print_item_list(items):
     for i, item in enumerate(items):
         print(f"{i + 1}. {item}")
 
-
-def choose_item(items):
+def choose_item(items):             #choose the item
     while True:
         if not items:
             print("You have no items to choose from.")
@@ -44,58 +41,50 @@ def choose_item(items):
         else:
             print("Invalid choice. Please select a valid item number.")
 
-
 active_session = True
 items = ["toy", "Pen"]
 
-
-# gates for progression
 gate1 = True
-gate2 = False
 gate3 = False
-gate4 = False   
 gate5 = False
 
 starting_or_quit_choice = starting_or_quit()
 if not starting_or_quit_choice:
     active_session = False
+
 name = user_name_input()
 print(f"Welcome, {name} to the Race to University!")
 input("Press Enter to continue...")
 clear_terminal()
+
 five_euro_used = False
 ov_chipkaart_used = False
 classmate_helped = False
 failure = False
-
+#-------------------------------------------------------------------------------------------------------------------
 while active_session:
-
-    # --- Situation 1 ---
     while gate1:
         clear_terminal()
         print("======================================")
         print("          Destination: Home           ")
         print("======================================\n")
-
         print("======================================")
         print("=   a: Look for your key             =")
         print("=   b: Walk to the station           =")
         print("=   c: Call mom                      =")
         print("======================================\n")
-
         choice = input("Your choice: ").lower()
 
         if choice == "a":
             clear_terminal()
             print("======================================")
             print("       You manage to find your keys   ")
-            print("                                      ")
             print("         You lose 3 minutes           ")
             print("======================================\n")
             input("Press Enter to continue...")
-            gate1 = False   # close this stage
-            gate2 = True    # open next stage
-            gate3 = True    # open next stage
+            gate1 = False
+            gate2 = True
+            gate3 = True
         elif choice in ["b", "c"]:
             clear_terminal()
             print("======================================")
@@ -107,20 +96,17 @@ while active_session:
         else:
             print("Invalid option, try again!")
             time.sleep(1)
-    # --- Situation 2 ---
+#-----------------------------------------------------------------------------------------------------------------------
     while gate2:
         clear_terminal()
         print("======================================")
         print("   You arrive near the metro station  ")
         print("======================================\n")
-        situation_texts = [
-            "===================================================================================",
-            "You notice an old man drop his belongings in front of you.",
-            "The old man says:'Please help me pick up these things, or a car might hit them!'",
-            "Would you help the old man or continue on your way?",
-            "==================================================================================\n",
-        ]
-        print("\n".join(situation_texts))
+        print("===================================================================================")
+        print("You notice an old man drop his belongings in front of you.")
+        print("The old man says:'Please help me pick up these things, or a car might hit them!'")
+        print("Would you help the old man or continue on your way?")
+        print("==================================================================================\n")
         choice = input("Type 'help' to assist the old man or 'ignore' to walk away: ").lower()
         clear_terminal()
         if choice == 'help':
@@ -134,10 +120,10 @@ while active_session:
             print("You chose to ignore the old man and continue on your way.")
         else:
             print("Invalid choice. Please choose 'help' or 'ignore'.")
-            try_again = input("press enter to try again: ")
+            input("press enter to try again: ")
             continue
+
         print("You reach the metro station. You need OV or tickets to board the metro.")
-        # Inner loop for item selection only
         item_selected = False
         while not item_selected:
             item_choice = choose_item(items)
@@ -166,9 +152,8 @@ while active_session:
                     print('please enter yes or no')
                     another_choice = input("Do you want to try another item? (yes/no): ").lower()
                 if another_choice == "yes":
-                    continue  # Go back to item selection
+                    continue
                 elif another_choice == "no":
-                    # Player doesn't want to try another item, ask about going home
                     item_choice = None                
             if item_choice is None:
                 back_home = input("Do you want to go back home to pick up another item? (yes/no): ").lower()
@@ -185,7 +170,7 @@ while active_session:
                     items.append("OV-chipkaart")
                     print("========================================================================")
                     print("you came back to the metro station. Use your item to board the metro.")
-                    continue  # Continue the item selection loop with new item
+                    continue
                 elif back_home == "no":
                     print("You wasted too much time doing nothing. You are already late for school.")
                     input("Press Enter to try again...")
@@ -196,96 +181,54 @@ while active_session:
                 else:
                     print("Invalid choice. Please enter 'yes' or 'no'.")
                     continue
-    # --- Situation 3 ---
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------
     while gate3:
         clear_terminal()
         print("======================================")
-        print("        Situation 3 |wip|             ")
+        print("        Destination: Bus Stop       ")
         print("======================================\n")
-
         print("======================================")
-        print("=   a: Placeholder choice A          =")
-        print("=   b: Placeholder choice B          =")
-        print("=   c: Placeholder choice C          =")
+        print("=   a: Look for your OV chipcard     =")
+        print("=   b: You ask ur friend for help    =")
+        print("=   c: you buy a ticket at the bus   =")
         print("======================================\n")
-
         choice = input("Your choice: ").lower()
-
         if choice in ["a", "b", "c"]:
+
+
+
             print("You chose something! (progressing...)")
+            time.sleep(30)
             input("Press Enter to continue...")
             gate3 = False
             gate4 = True
         else:
             print("Invalid option, try again!")
             time.sleep(1)
-
-    # --- Situation 4 ---
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------
     while gate4:
         quiz_questions = [
-    {
-        "question": "How many study hours does 1 credit (EC) equal at Rotterdam University of Applied Sciences?",
-        "options": ["a.) 20 hours", "b.) 28 hours", "c.) 40 hours"],
-        "answer": ["28 hours", "b"]
-    },
-    {
-        "question": "How many credits (EC) must a student normally obtain per year in a full-time program?",
-        "options": ["a.) 45", "b.) 60", "c.) 75"],
-        "answer": ["60", "b"]
-    },
-    {
-        "question": "What is the main language of instruction and exams at CMI?",
-        "options": ["a.) English", "b.) Dutch", "c.) German"],
-        "answer": ["Dutch", "b"]
-    },
-    {
-        "question": "Who is the first point of contact for a student regarding study guidance in the first year?",
-        "options": ["a.) Student counselor", "b.) Learning team coach", "c.) Study advisor"],
-        "answer": ["Learning team coach", "b"]
-    },
-    {
-        "question": "How many credits must a Communication student obtain to receive a positive study recommendation after the first year?",
-        "options": ["a.) 48 EC", "b.) 35 EC", "c.) 60 EC"],
-        "answer": ["48 EC", "a."]
-    },
-    {
-        "question": "Where must a student be registered in order to take an exam?",
-        "options": ["a.) Studielink", "b.) Hint", "c.) Osiris"],
-        "answer": ["Osiris", "c"]
-    },
-    {
-        "question": "Which of the following is an example of fraud according to the study guide?",
-        "options": ["a.) Submitting your own work", "b.) Copying or pasting without proper citation", "c.) Asking for an extra resit"],
-        "answer": ["Copying or pasting without proper citation", "b."]
-    },
-    {
-        "question": "Who handles complaints and disputes about exams at CMI?",
-        "options": ["a.) Executive Board", "b.) Bureau Complaints and Disputes (BKG)", "c.) Teaching team"],
-        "answer": ["Bureau Complaints and Disputes (BKG)", "b."]
-    },
-    {
-        "question": "Who owns the intellectual property of work created by a student during their studies?",
-        "options": ["a.) Always the university", "b.) In principle, the student", "c.) The teacher who graded it"],
-        "answer": ["In principle, the student", "b."]
-    },
-    {
-        "question": "What is one of the obligations of every student according to the study guide?",
-        "options": ["a.) Only attend exams", "b.) Actively contribute to education and a safe learning environment", "c.) Only hand in assignments"],
-        "answer": ["Actively contribute to education and a safe learning environment", "b."]
-    }]
+            {"question": "How many study hours does 1 credit (EC) equal at Rotterdam University of Applied Sciences?", "options": ["a.) 20 hours", "b.) 28 hours", "c.) 40 hours"], "answer": ["28 hours", "b"]},
+            {"question": "How many credits (EC) must a student normally obtain per year in a full-time program?", "options": ["a.) 45", "b.) 60", "c.) 75"], "answer": ["60", "b"]},
+            {"question": "What is the main language of instruction and exams at CMI?", "options": ["a.) English", "b.) Dutch", "c.) German"], "answer": ["Dutch", "b"]},
+            {"question": "Who is the first point of contact for a student regarding study guidance in the first year?", "options": ["a.) Student counselor", "b.) Learning team coach", "c.) Study advisor"], "answer": ["Learning team coach", "b"]},
+            {"question": "How many credits must a Communication student obtain to receive a positive study recommendation after the first year?", "options": ["a.) 48 EC", "b.) 35 EC", "c.) 60 EC"], "answer": ["48 EC", "a."]},
+            {"question": "Where must a student be registered in order to take an exam?", "options": ["a.) Studielink", "b.) Hint", "c.) Osiris"], "answer": ["Osiris", "c"]},
+            {"question": "Which of the following is an example of fraud according to the study guide?", "options": ["a.) Submitting your own work", "b.) Copying or pasting without proper citation", "c.) Asking for an extra resit"], "answer": ["Copying or pasting without proper citation", "b."]},
+            {"question": "Who handles complaints and disputes about exams at CMI?", "options": ["a.) Executive Board", "b.) Bureau Complaints and Disputes (BKG)", "c.) Teaching team"], "answer": ["Bureau Complaints and Disputes (BKG)", "b."]},
+            {"question": "Who owns the intellectual property of work created by a student during their studies?", "options": ["a.) Always the university", "b.) In principle, the student", "c.) The teacher who graded it"], "answer": ["In principle, the student", "b."]},
+            {"question": "What is one of the obligations of every student according to the study guide?", "options": ["a.) Only attend exams", "b.) Actively contribute to education and a safe learning environment", "c.) Only hand in assignments"], "answer": ["Actively contribute to education and a safe learning environment", "b."]}
+        ]
         clear_terminal()
         print("========================================")
         print("You finally arrive at the school gates.")
         print("========================================\n")
-        situation4_texts = [
-            "=====================================================================", 
-            "A senior student is blocking the entrance.",
-            "She crosses her arms and says:",
-            "“Not so fast. If you want to pass, you have to answer my question."
-            "You can not pass until you get it right!”",
-            "=====================================================================\n",
-        ]
-        print("\n".join(situation4_texts))
+        print("=====================================================================") 
+        print("A senior student is blocking the entrance.")
+        print("She crosses her arms and says:")
+        print("“Not so fast. If you want to pass, you have to answer my question.")
+        print("You can not pass until you get it right!”")
+        print("=====================================================================\n")
         answer = False
         try_use_item = 0
         while True:
@@ -303,8 +246,6 @@ while active_session:
                     gate5 = True
                     answer = True
                     print("You successfully passed the senior student and entered the university....")
-                    gate5 = True
-                    gate4 = False
                     break
                 elif item_choice in items:
                     print(f"You used {item_choice}, but it didn't help.")
@@ -318,17 +259,15 @@ while active_session:
                     print("You have no items to use.")
                     continue
             else:
-             print("Invalid choice. Please choose 'answer' or 'item'.")
+                print("Invalid choice. Please choose 'answer' or 'item'.")
         while answer == False:
             question_data = random.choice(quiz_questions)
             print(question_data["question"])
             if classmate_helped:
                 print("Since you helped a classmate earlier, Your classmate helped you by giving you a choice for this question.")
-                options = question_data["options"]
-                for option in options:
+                for option in question_data["options"]:
                     print(option)
                 user_answer = input("Type your answer (a/b/c): ").lower()
-                # Check if user_answer matches any of the correct answers
                 if user_answer in [ans.lower() for ans in question_data["answer"]]:
                     print("Correct! You may pass.")
                     gate4 = False
@@ -349,29 +288,24 @@ while active_session:
                 if is_correct:
                     print("Correct! You may pass.")
                     gate4 = False
-                    answer = True
                     gate5 = True
                     print("You successfully passed the senior student and entered the university....")
                     break       
                 else:
                     print("Incorrect answer. Try again.")
                 continue
-
-    # --- Situation 5 ---
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------
     while gate5:
         clear_terminal()
         print("======================================")
-        print("        Situation 5 (WIP)             ")
+        print("   Location: hogeschool rotterdam     ")
         print("======================================\n")
-
         print("======================================")
-        print("=   a: Placeholder choice A          =")
-        print("=   b: Placeholder choice B          =")
-        print("=   c: Placeholder choice C          =")
+        print("=   a: You ask Michelon              =")
+        print("=   b: you ask pascalle              =")
+        print("=   c: you look on your phone        =")
         print("======================================\n")
-
         choice = input("Your choice: ").lower()
-
         if choice in ["a", "b", "c"]:
             print("End of demo! 🎉 Thanks for playing.")
             input("Press Enter to exit...")
