@@ -55,11 +55,16 @@ def choose_item(items):             #choose the item
         else:
             print("Invalid choice. Please select a valid item number.")
 
+def classmate_name():
+    names = ["Thanya", "Akash", "Iris", "Andy", "Ava", "Sophia", "Isabella", "Mia", "Charlotte", "Amelia"]
+    return random.choice(names)
+
 active_session = True
 items = []
 
-gate1 = True
+gate1 = False
 gate2 = False
+gate2_5 = False
 gate3 = False
 gate4 = False
 gate5 = False
@@ -72,12 +77,58 @@ name = user_name_input()
 print(f"Welcome, {name} to the Race to University!")
 input("Press Enter to continue...")
 start_time = time.time()
-clear_terminal()
 
 five_euro_used = False
 ov_chipkaart_used = False
 classmate_helped = False
 failure = False
+choose_2_item = True
+#-------------------------------------------------------------------------------------------------------------------
+while choose_2_item:
+    clear_terminal()
+    print("======================================")
+    print(" You wake up late! Hurry to school!   ")
+    print("======================================\n")
+    print("You can pick up 2 items before you leave:")
+    available_items = ["OV-chipkaart", "Cash", "Metro ticket", "5 euro", "a phone", "Keys", "Notebook", "Pen", "Water bottle", "Snack", "Laptop"]
+    print_item_list(available_items)
+    
+    # Choose first item
+    item1 = None
+    while item1 is None:
+        choice1 = input("Choose your first item (enter number): ")
+        if choice1.isdigit() and 1 <= int(choice1) <= len(available_items):
+            item1 = available_items[int(choice1) - 1]
+            items.append(item1)
+            print(f"You selected: {item1}")
+        else:
+            print("Invalid selection. Please enter a valid number.")
+            time.sleep(1) 
+    # Choose second item
+    item2 = None
+    while item2 is None:
+        choice2 = input("Choose your second item (enter number): ")
+        if choice2.isdigit() and 1 <= int(choice2) <= len(available_items):
+            if available_items[int(choice2) - 1] != item1:
+                item2 = available_items[int(choice2) - 1]
+                items.append(item2)
+                print(f"You selected: {item2}")
+            else:
+                print("You cannot choose the same item twice. Please pick a different item.")
+                time.sleep(1)
+        else:
+            print("Invalid selection. Please enter a valid number.")
+            time.sleep(1)
+    
+    clear_terminal()
+    print("======================================")
+    print(f"You have chosen: {item1} and {item2}")
+    print("======================================\n")
+    input("Press Enter to continue...")
+    choose_2_item = False
+    gate1 = True
+
+
 #-------------------------------------------------------------------------------------------------------------------
 while active_session:
     while gate1:
@@ -87,7 +138,7 @@ while active_session:
         print("======================================\n")
         print("======================================")
         print("=                                    =")
-        print(f"=  your time:{time_remaining()}     =")
+        print(f"=  your time:{time_remaining()}                   =")
         print("=                                    =")
         print("=   a: Look for your key             =")
         print("=   b: Walk to the station           =")
@@ -122,7 +173,7 @@ while active_session:
         print("======================================")
         print("   You arrive near the metro station  ")
         print("                                      ")
-        print(f"     your time:{time_remaining()}     ")
+        print(f"     your time:{time_remaining()}           ")
         print("======================================\n")
         print("===================================================================================")
         print("You notice an old man drop his belongings in front of you.")
@@ -154,19 +205,19 @@ while active_session:
                 items.remove("metro ticket")
                 gate2 = False
                 item_selected = True
-                gate3 = True
+                gate2_5 = True
             elif item_choice == "OV-chipkaart":
                 print("You used your OV-chipkaart to board the metro....")
                 ov_chipkaart_used = True
                 gate2 = False
                 item_selected = True
-                gate3 = True
+                gate2_5 = True
             elif item_choice == "Cash":
                 print("You used cash to buy a metro ticket and board the metro....")
                 items.remove("Cash")
                 gate2 = False
                 item_selected = True
-                gate3 = True
+                gate2_5 = True
             elif item_choice in items:
                 print("You can't use that item.")
                 another_choice = input("Do you want to try another item? (yes/no): ").lower()
@@ -204,6 +255,48 @@ while active_session:
                     print("Invalid choice. Please enter 'yes' or 'no'.")
                     continue
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    while gate2_5:
+        classmate_name = classmate_name()
+        clear_terminal()
+        print("======================================")
+        print("   You arrive in the city             ")
+        print("                                      ")
+        print(f"     your time:{time_remaining()}            ")
+        print("======================================\n")
+        print("===================================================================================")
+        print("You walk to the bus stop.             ")
+        print(f"You saw {classmate_name}. It's your classmate who's struggling with their scooter.")
+        print("Would you help your classmate or continue on your way?")
+        print("==================================================================================\n")
+        choice = input("Type 'help' to assist your classmate or 'ignore' to walk away: ").lower()
+        clear_terminal()
+        if choice == 'help':
+            if "a phone" in items:
+                print("================================================================================================================")
+                print(f"You used a phone to call a mechanic for {classmate_name}.")
+                print("The mechanic arrives quickly and helps fix the scooter.")
+                print(f"{classmate_name} offers you a ride to the university.")
+                classmate_helped = True
+                input("Press Enter to continue...")
+                gate2_5 = False
+                gate4 = True
+            else:
+                print("================================================================================================================")
+                print(f"You want to help {classmate_name}, but you don't have a phone to call a mechanic.")
+                print("You apologize and have to continue on your way.")
+                input("Press Enter to continue...")
+                gate2_5 = False
+                gate3 = True
+        elif choice == 'ignore':
+            print("================================================================================================================")
+            print(f"You ignored {classmate_name} and continued on your way.")
+            print("You feel a bit guilty, but you need to focus on getting to the university.")
+            gate2_5 = False
+            gate3 = True
+        else:
+            print("Invalid choice. Please choose 'help' or 'ignore'.")
+            clear_terminal()
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------
     while gate3:
         clear_terminal()
         print("======================================")
@@ -211,7 +304,7 @@ while active_session:
         print("======================================\n")
         print("======================================")
         print("=                                    =")
-        print(f"=  your time:{time_remaining()}     =")
+        print(f"     your time:{time_remaining()}           ")
         print("=                                    =")
         print("=   a: Look for your OV chipcard     =")
         print("=   b: You ask ur friend for help    =")
@@ -247,7 +340,7 @@ while active_session:
         clear_terminal()
         print("========================================")
         print("You finally arrive at the school gates.")
-        print(f"=   your time:{time_remaining()}      ")
+        print(f"     your time:{time_remaining()}           ")
         print("========================================\n")
         print("=====================================================================") 
         print("A senior student is blocking the entrance.")
@@ -281,9 +374,17 @@ while active_session:
                         failure = True
                         active_session = False
                         break
-                else:
+                    else:
+                        another_choice = input("Do you want to try another item? (yes/no): ").lower()
+                        while another_choice not in ["yes", "no"]:
+                            print('Please enter yes or no')
+                            another_choice = input("Do you want to try another item? (yes/no): ").lower()
+                        if another_choice == "no":
+                            break  # Go back to answer the question
+                        # If yes, continue the loop to try another item
+                elif item_choice is None:
                     print("You have no items to use.")
-                    continue
+                    break  # Go back to answer the question
             else:
                 print("Invalid choice. Please choose 'answer' or 'item'.")
         while answer == False:
@@ -329,7 +430,7 @@ while active_session:
         print("======================================\n")
         print("======================================")
         print("=                                    =")
-        print(f"=  your time:{time_remaining()}     =")
+        print(f"     your time:{time_remaining()}           ")
         print("=                                    =")
         print("=   a: You ask Michelon              =")
         print("=   b: you ask pascalle              =")
