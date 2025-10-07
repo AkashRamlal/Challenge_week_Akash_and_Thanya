@@ -185,9 +185,9 @@ while active_session:
         if choice == 'help':
             print("================================================================================================================")
             print("You helped the old man pick up his belongings. He thanks you profusely and gives you a free metro ticket.")
-            print("+ 1 metro ticket")
+            print("+ 1 Metro ticket")
             print("================================================================================================================")
-            items.append("metro ticket")
+            items.append("Metro ticket")
         elif choice == 'ignore':
             print("===========================================================")
             print("You chose to ignore the old man and continue on your way.")
@@ -200,9 +200,9 @@ while active_session:
         item_selected = False
         while not item_selected:
             item_choice = choose_item(items)
-            if item_choice == "metro ticket":
+            if item_choice == "Metro ticket":
                 print("You used the metro ticket to board the metro....")
-                items.remove("metro ticket")
+                items.remove("Metro ticket")
                 gate2 = False
                 item_selected = True
                 gate2_5 = True
