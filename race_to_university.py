@@ -91,6 +91,7 @@ def starting_or_quit():
 
 
 def check_time_over():
+<<<<<<< HEAD
     global active_session, absent, game_time, start_time
     # Calculate remaining time based on actual elapsed time
     elapsed = time.time() - start_time if start_time else 0
@@ -102,6 +103,14 @@ def check_time_over():
         typewriter_effect("[You are marked absent for today.]\n")
         absent += 1
 
+=======
+    global active_session, absent, game_time, winning
+    if game_time <= 0:
+        typewriter_effect("\n⏰ Time's up! You didn’t make it to class on time.")
+        typewriter_effect("[You are marked absent for today.]\n")
+        absent += 1
+        winning = False
+>>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
         if absent >= 4:
             typewriter_effect("You've been absent too many times... GAME OVER.")
             active_session = False
@@ -109,6 +118,8 @@ def check_time_over():
             typewriter_input("Press Enter to try again...")
             reset_game_state()
             active_session = False
+        return True
+    return False
 
         # Force all gates to stop immediately
         globals().update({
@@ -328,12 +339,6 @@ gate6_text = [
 ]
 
 
-# ---------------------------------- GAME STATE ----------------------------------
-active_session = True
-items = []
-absent = 0
-winning = False
-
 starting_or_quit_choice = starting_or_quit()
 if not starting_or_quit_choice:
     active_session = False
@@ -343,13 +348,26 @@ typewriter_effect(f"Welcome, {name}, to the Race to University!")
 typewriter_input("Press Enter to continue...")
 start_time = time.time()
 
-five_euro_used = False
-ov_chipkaart_used = False
-classmate_helped = False
-choose_2_item = True
+absent = 0
+winning = False
+
 
 # ---------------------------------- MAIN GAME LOOP ----------------------------------
-while absent < 4 and not winning and active_session:
+while absent < 4 and not winning:
+    # --- reset one play session ---
+    active_session = True
+    # reset timer
+    game_time = 10 * 60   # 10 minutes
+    start_time = time.time()
+    # reset inventory & run-state flags (do NOT reset 'absent' or 'name')
+    items = []
+    five_euro_used = False
+    ov_chipkaart_used = False
+    classmate_helped = False
+    choose_2_item = True
+
+    item_selected = False
+    
     while choose_2_item:
         clear_terminal()
         typewriter_effect_lines(choose_items_text)
@@ -368,6 +386,7 @@ while absent < 4 and not winning and active_session:
                 item1 = available_items[int(choice1) - 1]
                 items.append(item1)
                 typewriter_effect(f"You selected: {item1}")
+                time.sleep(1)
             else:
                 print("Invalid choice.")
         while item2 is None:
@@ -379,6 +398,7 @@ while absent < 4 and not winning and active_session:
                     item2 = available_items[int(choice2) - 1]
                     items.append(item2)
                     typewriter_effect(f"You selected: {item2}")
+                    time.sleep(1)
                 else:
                     print("You can’t pick the same item twice.")
             else:
@@ -400,6 +420,12 @@ while absent < 4 and not winning and active_session:
                 gate2 = True
                 break
             typewriter_effect_lines(gate1_text)
+            if "Keys" in items:
+                typewriter_effect("You use the key to unlock and ride it to the station.....")
+                time.sleep(1)
+                gate1 = False
+                gate2 = True
+                break
             choice = typewriter_input("Your choice: ").lower()
             if check_time_over():
                 break
@@ -410,6 +436,10 @@ while absent < 4 and not winning and active_session:
                     break
                 typewriter_effect_lines(gate1_text_a)
                 typewriter_effect(f"your time:{time_remaining()}")
+<<<<<<< HEAD
+=======
+                typewriter_input("Press Enter to continue...")
+>>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
                 if check_time_over():
                     break
                 gate1 = False
@@ -438,6 +468,11 @@ while absent < 4 and not winning and active_session:
                 time.sleep(1)
 #--------------------------------------------------------------------------------------------------------------------------------
         while gate2:
+<<<<<<< HEAD
+=======
+            if check_time_over():
+                break
+>>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
             clear_terminal()
             if check_time_over():
                 break
@@ -449,6 +484,8 @@ while absent < 4 and not winning and active_session:
             clear_terminal()
             if choice == 'help':
                 typewriter_effect_lines(gate2_help)
+                if check_time_over():
+                    break
                 typewriter_effect(f"your time:{time_remaining()}")
                 items.append("Metro ticket")
             elif choice == 'ignore':
@@ -460,7 +497,6 @@ while absent < 4 and not winning and active_session:
                     break
                 continue
             typewriter_effect("You reach the metro station. You need OV or tickets to board the metro.")
-            item_selected = False
             while not item_selected:
                 item_choice = choose_item(items)
                 if item_choice == "Metro ticket":
@@ -510,7 +546,11 @@ while absent < 4 and not winning and active_session:
                 if item_choice is None:
                     back_home = typewriter_input("Do you want to go back home to pick up another item? (yes/no): ").lower()
                     if check_time_over():
+<<<<<<< HEAD
                         break
+=======
+                            break
+>>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
                     if back_home == "yes":
                         subtract_minutes(8)
                         if check_time_over():
@@ -536,6 +576,13 @@ while absent < 4 and not winning and active_session:
                         game_time = 0
                         if check_time_over():
                             break
+<<<<<<< HEAD
+=======
+                        failure = True
+                        gate2 = False
+                        item_selected = True
+                        active_session = False
+>>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
                     else:
                         print("Invalid choice. Please enter 'yes' or 'no'.")
                         continue
@@ -671,14 +718,13 @@ while absent < 4 and not winning and active_session:
                                 if check_time_over():
                                     break
                             if another_choice == "no":
-                                break  # Go back to answer the question
-                            # If yes, continue the loop to try another item
+                                break
                     elif item_choice is None:
                         subtract_minutes(3)
                         if check_time_over():
                             break
                         typewriter_effect("You have no items to use.")
-                        break  # Go back to answer the question
+                        break
                 else:
                     subtract_minutes(5)
                     if check_time_over():
@@ -736,8 +782,11 @@ while absent < 4 and not winning and active_session:
             clear_terminal()
             typewriter_effect_lines(gate5_text)
             typewriter_effect(f"Your time: {time_remaining()}")
+<<<<<<< HEAD
             if check_time_over():
                 break
+=======
+>>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
             choice = typewriter_input("Your choice: ").lower()
             if check_time_over():
                 break
@@ -787,8 +836,8 @@ while absent < 4 and not winning and active_session:
                 typewriter_effect("He nods and lets you enter the classroom.")
                 typewriter_effect("🎉 CONGRATULATIONS! YOU MADE IT ON TIME! 🎉")
                 winning = True
-                gate6 = False
-                quit()
+                active_session = False
+                break
             elif choice == "a" and "Laptop" not in items:
                 subtract_minutes(2)
                 typewriter_effect("You search your backpack but realize you don’t have your laptop with you.")
