@@ -91,36 +91,12 @@ def starting_or_quit():
 
 
 def check_time_over():
-<<<<<<< HEAD
-    global active_session, absent, game_time, start_time
-    # Calculate remaining time based on actual elapsed time
-    elapsed = time.time() - start_time if start_time else 0
-    remaining = max(0, game_time - elapsed)
-
-    if remaining <= 0:
-        clear_terminal()
-        typewriter_effect("\n⏰ Time's up! You didn’t make it to class on time.")
-        typewriter_effect("[You are marked absent for today.]\n")
-        absent += 1
-
-=======
     global active_session, absent, game_time, winning
     if game_time <= 0:
         typewriter_effect("\n⏰ Time's up! You didn’t make it to class on time.")
         typewriter_effect("[You are marked absent for today.]\n")
         absent += 1
         winning = False
->>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
-        if absent >= 4:
-            typewriter_effect("You've been absent too many times... GAME OVER.")
-            active_session = False
-        else:
-            typewriter_input("Press Enter to try again...")
-            reset_game_state()
-            active_session = False
-        return True
-    return False
-
         # Force all gates to stop immediately
         globals().update({
             "gate1": False,
@@ -131,6 +107,13 @@ def check_time_over():
             "gate5": False,
             "gate6": False
         })
+        if absent >= 4:
+            typewriter_effect("You've been absent too many times... GAME OVER.")
+            active_session = False
+        else:
+            typewriter_input("Press Enter to try again...")
+            reset_game_state()
+            active_session = False
         return True  # Indicate that time is over
 
     return False  # Time still remaining
