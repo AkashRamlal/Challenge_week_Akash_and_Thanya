@@ -419,10 +419,7 @@ while absent < 4 and not winning:
                     break
                 typewriter_effect_lines(gate1_text_a)
                 typewriter_effect(f"your time:{time_remaining()}")
-<<<<<<< HEAD
-=======
                 typewriter_input("Press Enter to continue...")
->>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
                 if check_time_over():
                     break
                 gate1 = False
@@ -451,11 +448,8 @@ while absent < 4 and not winning:
                 time.sleep(1)
 #--------------------------------------------------------------------------------------------------------------------------------
         while gate2:
-<<<<<<< HEAD
-=======
             if check_time_over():
                 break
->>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
             clear_terminal()
             if check_time_over():
                 break
@@ -529,11 +523,7 @@ while absent < 4 and not winning:
                 if item_choice is None:
                     back_home = typewriter_input("Do you want to go back home to pick up another item? (yes/no): ").lower()
                     if check_time_over():
-<<<<<<< HEAD
                         break
-=======
-                            break
->>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
                     if back_home == "yes":
                         subtract_minutes(8)
                         if check_time_over():
@@ -559,13 +549,10 @@ while absent < 4 and not winning:
                         game_time = 0
                         if check_time_over():
                             break
-<<<<<<< HEAD
-=======
                         failure = True
                         gate2 = False
                         item_selected = True
                         active_session = False
->>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
                     else:
                         print("Invalid choice. Please enter 'yes' or 'no'.")
                         continue
@@ -765,11 +752,8 @@ while absent < 4 and not winning:
             clear_terminal()
             typewriter_effect_lines(gate5_text)
             typewriter_effect(f"Your time: {time_remaining()}")
-<<<<<<< HEAD
             if check_time_over():
                 break
-=======
->>>>>>> ba4ec3f2b865612885f5254d0135d2fa59eef09e
             choice = typewriter_input("Your choice: ").lower()
             if check_time_over():
                 break
@@ -782,7 +766,6 @@ while absent < 4 and not winning:
                     break
                 gate5 = False
                 gate6 = True
-
             elif choice == "b":
                 subtract_minutes(5)
                 typewriter_effect("You decide to ask Pascalle. She greets you warmly and asks how your studies are going.")
