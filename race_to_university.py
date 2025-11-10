@@ -17,9 +17,15 @@ def start_background_music(background_file):
 def stop_background_music():
     """Stop background music."""
     pygame.mixer.music.stop()
+
+pygame.mixer.init()
+typing_sound = pygame.mixer.Sound("typing sound.mp3")
+
+
 # ---------------------------------- GAME TIMER ----------------------------------
 game_time = 10 * 60  # 30 minutes in seconds
 start_time = None
+
 
 
 def time_remaining():
@@ -42,13 +48,23 @@ def subtract_minutes(minutes_to_remove):
 
 # ---------------------------------- TEXT EFFECTS ----------------------------------
 def typewriter_effect(text, delay=0.05):
+    """Print text with typewriter effect and play typing sound while typing."""
+    # Start looping typing sound
+    typing_sound.play(loops=-1)
+
     for char in text:
         print(char, end='', flush=True)
         time.sleep(delay)
+
+    # Stop sound after typing ends
+    typing_sound.stop()
     print()
 
 
 def typewriter_effect_lines(lines, line_delay=0.5, char_delay=0.05):
+    """Type multiple lines with sound looping during typing."""
+    typing_sound.play(loops=-1)
+
     for line in lines:
         for char in line:
             print(char, end='', flush=True)
@@ -56,11 +72,18 @@ def typewriter_effect_lines(lines, line_delay=0.5, char_delay=0.05):
         print()
         time.sleep(line_delay)
 
+    typing_sound.stop()
+
 
 def typewriter_input(prompt, delay=0.05):
+    """Type a prompt with sound, then stop sound before input."""
+    typing_sound.play(loops=-1)
+
     for char in prompt:
         print(char, end='', flush=True)
         time.sleep(delay)
+
+    typing_sound.stop()
     return input()
 
 
@@ -123,7 +146,7 @@ def reset_game_state():
     global game_time, start_time, active_session, absent, winning
     global items, five_euro_used, ov_chipkaart_used, classmate_helped, choose_2_item
 
-    game_time = 15 * 60  # Reset to 10 minutes (or 30 if you want)
+    game_time = 15 * 60
     start_time = None
     active_session = True
     winning = False
@@ -322,6 +345,7 @@ gate6_text = [
 ]
 
 
+start_background_music("background music.mp3")
 starting_or_quit_choice = starting_or_quit()
 if not starting_or_quit_choice:
     active_session = False
@@ -335,6 +359,14 @@ absent = 0
 winning = False
 
 
+gate1 = False
+gate2 = False
+gate2_5 = False
+gete3 = False
+gate4 = False
+gate5 = False
+gate6 = False
+
 # ---------------------------------- MAIN GAME LOOP ----------------------------------
 while absent < 4 and not winning:
     # --- reset one play session ---
@@ -344,6 +376,8 @@ while absent < 4 and not winning:
     start_time = time.time()
     # reset inventory & run-state flags (do NOT reset 'absent' or 'name')
     items = []
+
+    gate4 = False
     five_euro_used = False
     ov_chipkaart_used = False
     classmate_helped = False
@@ -461,12 +495,14 @@ while absent < 4 and not winning:
             clear_terminal()
             if choice == 'help':
                 typewriter_effect_lines(gate2_help)
+                subtract_minutes(5)
                 if check_time_over():
                     break
                 typewriter_effect(f"your time:{time_remaining()}")
                 items.append("Metro ticket")
             elif choice == 'ignore':
                 typewriter_effect("You chose to ignore the old man and continue on your way.")
+                pass
             else:
                 print("Invalid choice. Please choose 'help' or 'ignore'.")
                 typewriter_input("press enter to try again: ")
@@ -496,6 +532,7 @@ while absent < 4 and not winning:
                     gate2_5 = True
                 elif item_choice == "Cash":
                     typewriter_effect("You used cash to buy a metro ticket and board the metro....")
+                    subtract_minutes(3)
                     time.sleep(1)
                     if check_time_over():
                         break
@@ -506,6 +543,7 @@ while absent < 4 and not winning:
                 elif item_choice in items:
                     typewriter_effect("You can't use that item.")
                     another_choice = typewriter_input("Do you want to try another item? (yes/no): ").lower()
+                    subtract_minutes(3)
                     if check_time_over():
                         break
                     while another_choice not in ["yes", "no"]:
@@ -570,11 +608,11 @@ while absent < 4 and not winning:
                 if "a phone" in items:
                     typewriter_effect_lines(gate2_5_help_with_phone)
                     classmate_helped = True
+                    gate2_5 = False
+                    gate3 = True
                     typewriter_input("Press Enter to continue...")
                     if check_time_over():
                         break
-                    gate2_5 = False
-                    gate4 = True
                 else:
                     typewriter_effect_lines(gate2_5_help_without_phone)
                     typewriter_input("Press Enter to continue...")
@@ -591,6 +629,12 @@ while absent < 4 and not winning:
                 clear_terminal()
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
         while gate3:
+            if classmate_helped:
+                gate3 = False
+                gate4 = True
+                break
+            else:
+                pass
             clear_terminal()
             typewriter_effect_lines(gate3_text)
             typewriter_effect(f"your time:{time_remaining()}")
