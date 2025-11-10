@@ -23,7 +23,7 @@ typing_sound = pygame.mixer.Sound("typing sound.mp3")
 
 
 # ---------------------------------- GAME TIMER ----------------------------------
-game_time = 10 * 60  # 30 minutes in seconds
+game_time = 15 * 60
 start_time = None
 
 
